@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Home Page</h2>
     <ul>
       <li>
         <router-link to="/questionA">First Question</router-link>
@@ -16,6 +17,7 @@
 <style>
 ul {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
 li {
