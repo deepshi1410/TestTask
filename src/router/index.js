@@ -7,6 +7,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),
+  base: window.location.pathname,
   routes: [{
     path: '/',
     component: HomePage
