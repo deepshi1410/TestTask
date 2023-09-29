@@ -1,56 +1,56 @@
 <template>
   <base-card>
     <form @submit.prevent="submitForm">
-      <div>
-        <div class="form-control" v-for="block in blocks" :key="block.id">
-          <div v-if="block.type == 'text'" class="block">
-            <label>{{ block.token }}</label>
-            <input
-              :type="block.type"
-              :placeholder="block.props.title"
-              :value="block.placeholder"
-              v-model="userName"
-            />
-          </div>
-          <div v-if="block.type == 'checkbox'" class="block">
-            <label>{{ block.token }}</label>
-            <input
-              :type="block.type"
-              :placeholder="block.props.title"
-              v-model="isMinor"
-            />
-          </div>
-          <div class="block" v-if="block.type == 'date'">
-            <label>{{ block.token }}</label>
-            <input
-              :type="block.type"
-              :placeholder="block.props.title"
-              :value="block.placeholder"
-              v-if="block.type == 'date'"
-              v-model="dateOfBirth"
-            />
-          </div>
+      <div
+        class="form-control"
+        v-for="block in blocksData.blocks"
+        :key="block.id"
+      >
+        <div v-if="block.type == 'text'" class="block">
+          <label>{{ block.token }}</label>
+          <input
+            :type="block.type"
+            :placeholder="block.props.title"
+            v-model="block.props.placeholder"
+            :required="block.required"
+          />
+          <p style="color: red" v-if="!formIsValid && !userName.isValid">
+            Please enter Name
+          </p>
         </div>
-        {{ formIsValid }}
-        <p v-if="!formIsValid">
-          Please fix the above errors and submit the form again !!
-        </p>
+        <div v-if="block.type == 'checkbox'" class="block">
+          <label>{{ block.token }}</label>
+          {{ block.props.title }}
+          <input :type="block.type" :checked="block.props.default" />
+        </div>
+        <div class="block" v-if="block.type == 'date'">
+          <label>{{ block.token }}</label>
+          <input
+            :type="block.type"
+            :placeholder="block.props.title"
+            v-if="block.type == 'date'"
+            v-model="block.props.placeholder"
+          />
+          <p style="color: red" v-if="!formIsValid && !dateOfBirth.isValid">
+            Please enter valid Date
+          </p>
+        </div>
       </div>
+      <p v-if="!formIsValid">
+        Please fix the above errors and submit the form again !!
+      </p>
       <button type="submit">Submit</button>
     </form></base-card
   >
 </template>
 <script>
-import Blocks from "@/assets/blocks.js";
+import BlocksData from "@/assets/blocks.js";
 export default {
   data() {
     return {
       formIsValid: true,
-      blocks: Blocks,
+      blocksData: BlocksData,
       userName: {
-        isValid: true,
-      },
-      isMinor: {
         isValid: true,
       },
       dateOfBirth: {
@@ -59,33 +59,25 @@ export default {
     };
   },
   methods: {
-    // to clear the red colour when user enters in input field and input field's focus is blurred
-    clearValidity(input) {
-      this[input].isValid = true;
-    },
+    // this method is used to validate the form that user do not leave name field empty and do not enter invalid date
     validateForm() {
-      console.log(
-        "validate called",
-        "name",
-        this.userName,
-        "date",
-        this.dateOfBirth
-      );
-      if (this.userName === "") {
-        this.userName.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.isMinor == "") {
-        this.isMinor.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.dateOfBirth == "") {
-        this.dateOfBirth.isValid = false;
-        this.formIsValid = false;
+      let dateRegex = /(\d{4})-(\d{2})-(\d{2})/;
+      for (let block of this.blocksData.blocks) {
+        if (block.type == "text" && block.props.placeholder == "") {
+          this.userName.isValid = false;
+          this.formIsValid = false;
+        } else if (
+          block.type == "date" &&
+          (block.props.placeholder == "" ||
+            dateRegex.match(block.props.placeholder))
+        ) {
+          this.dateOfBirth.isValid = false;
+          this.formIsValid = false;
+        }
       }
     },
+    // this method will submit the form only after form is validated successfuly
     submitForm() {
-      console.log("submit called");
       this.validateForm();
       if (!this.formIsValid) return;
     },
