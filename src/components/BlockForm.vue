@@ -1,53 +1,58 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="form-control" :class="{ invalid: !userName.isValid }">
-      <label for="userName">Name</label>
-      <input
-        type="text"
-        id="userName"
-        v-model.trim="userName.value"
-        @blur="clearValidity('userName')"
-      />
-      <p v-if="!userName.isValid">Name cannot be empty</p>
-    </div>
-    <div class="form-control" :class="{ invalid: !areas.isValid }">
-      <h3>Is Person Minor</h3>
+  <base-card>
+    <form @submit.prevent="submitForm">
       <div>
-        <input type="checkbox" id="yes" value="yes" v-model="isMinor.value" />
-        <label for="yes" :class="{ invalid: !isMinor.isValid }">Yes</label>
+        <div class="form-control" v-for="block in blocks" :key="block.id">
+          <div v-if="block.type == 'text'" class="block">
+            <label>{{ block.token }}</label>
+            <input
+              :type="block.type"
+              :placeholder="block.props.title"
+              v-model="userName"
+            />
+            {{ block }}
+          </div>
+          <div v-if="block.type == 'checkbox'" class="block">
+            <label>{{ block.token }}</label>
+            <input
+              :type="block.type"
+              :placeholder="block.props.title"
+              v-model="isMinor"
+            />
+          </div>
+          <div class="block" v-if="block.type == 'date'">
+            <label>{{ block.token }}</label>
+            <input
+              :type="block.type"
+              :placeholder="block.props.title"
+              v-if="block.type == 'date'"
+              v-model="dateOfBirth"
+            />
+          </div>
+        </div>
+        <p v-if="!formIsValid">
+          Please fix the above errors and submit the form again !!
+        </p>
       </div>
-      <div>
-        <input type="checkbox" id="no" value="no" v-model="isMinor.value" />
-        <label for="no" :class="{ invalid: !isMinor.isValid }">No</label>
-      </div>
-      <p v-if="!isMinor.isValid">Atleast one option should be selected</p>
-    </div>
-    <div class="form-control" :class="{ invalid: !dateOfBirth.isValid }">
-      <h3>Enter Date of Birth</h3>
-      <div><input type="date" v-model="dateOfBirth.value" /></div>
-    </div>
-    <p v-if="!formIsValid">
-      Please fix the above errors and submit the form again !!
-    </p>
-    <button>Submit</button>
-  </form>
+      <button type="submit">Submit</button>
+    </form></base-card
+  >
 </template>
 <script>
+import Blocks from "@/assets/blocks.js";
 export default {
   data() {
     return {
       formIsValid: true,
+      blocks: Blocks,
       userName: {
         isValid: true,
-        value: "",
       },
       isMinor: {
         isValid: true,
-        value: "no",
       },
       dateOfBirth: {
         isValid: true,
-        value: "",
       },
     };
   },
@@ -57,37 +62,39 @@ export default {
       this[input].isValid = true;
     },
     validateForm() {
-      if (this.userName.value === "") {
+      console.log("validate called");
+      if (this.userName === "") {
         this.userName.isValid = false;
         this.formIsValid = false;
       }
-      if (this.isMinor.value == "") {
+      if (this.isMinor == "") {
         this.isMinor.isValid = false;
         this.formIsValid = false;
       }
-      if (this.dateOfBirth.value == "") {
+      if (this.dateOfBirth == "") {
         this.dateOfBirth.isValid = false;
         this.formIsValid = false;
       }
     },
     submitForm() {
+      console.log("submit called");
       this.validateForm();
       if (!this.formIsValid) return;
-      const block = {
-        userName: this.userName.value,
-        isMinor: this.isMinor.value,
-        dateOfBirth: this.dateOfBirth.value,
-      };
-      this.$store.commit("addBlocks", block);
     },
   },
 };
 </script>
 <style scoped>
+form {
+  border: 1px solid bottom;
+  border-radius: 10px;
+}
 .form-control {
   margin: 0.5rem 0;
 }
-
+.block {
+  width: 80%;
+}
 label {
   font-weight: bold;
   display: block;
@@ -139,3 +146,4 @@ h3 {
   border: 1px solid red;
 }
 </style>
+@/assets/blocks.js

@@ -1,15 +1,10 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <!-- <UsersList />
-    <BlockForm /> -->
   </div>
 </template>
 
 <script>
-// import UsersList from "./components/UsersList.vue";
-// import BlockForm from "./components/BlockForm.vue";
-
 export default {
   name: "App",
   components: {
@@ -17,7 +12,7 @@ export default {
     // BlockForm,
   },
   mounted() {
-    // this.$store.dispatch("fetchData");
+    this.$store.dispatch("fetchData");
   },
 };
 </script>
