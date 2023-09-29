@@ -20,7 +20,8 @@
     "mitt": "^3.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.13",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "webpack": "^5.88.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
