@@ -8,9 +8,9 @@
             <input
               :type="block.type"
               :placeholder="block.props.title"
+              :value="block.placeholder"
               v-model="userName"
             />
-            {{ block }}
           </div>
           <div v-if="block.type == 'checkbox'" class="block">
             <label>{{ block.token }}</label>
@@ -25,11 +25,13 @@
             <input
               :type="block.type"
               :placeholder="block.props.title"
+              :value="block.placeholder"
               v-if="block.type == 'date'"
               v-model="dateOfBirth"
             />
           </div>
         </div>
+        {{ formIsValid }}
         <p v-if="!formIsValid">
           Please fix the above errors and submit the form again !!
         </p>
@@ -62,7 +64,13 @@ export default {
       this[input].isValid = true;
     },
     validateForm() {
-      console.log("validate called");
+      console.log(
+        "validate called",
+        "name",
+        this.userName,
+        "date",
+        this.dateOfBirth
+      );
       if (this.userName === "") {
         this.userName.isValid = false;
         this.formIsValid = false;

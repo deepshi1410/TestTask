@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h3>This is Child A Component</h3>
-    <button @click="sendMessage">Send Message to sibling</button>
-    <ChildC />
+    <base-card>
+      <h3>This is Child A Component</h3>
+      <button @click="sendMessage">Send Message to sibling</button>
+      <ChildC
+    /></base-card>
   </div>
 </template>
 <script>

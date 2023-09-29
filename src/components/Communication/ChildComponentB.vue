@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h3>This is Child B component</h3>
-    <h3>{{ text }}</h3>
+    <base-card>
+      <h3>This is Child B component</h3>
+      <h3>{{ text }}</h3></base-card
+    >
   </div>
 </template>
 <script>

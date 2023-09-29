@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h2>This is Parent Component</h2>
-    <ChildB :text="text" @sentTextToParent="textReceivedFromChild"></ChildB>
-    <ChildA></ChildA>
+    <base-card>
+      <h2>This is Parent Component</h2>
+      <ChildB :text="text" @sentTextToParent="textReceivedFromChild"></ChildB>
+      <ChildA></ChildA
+    ></base-card>
   </div>
 </template>
 <script>

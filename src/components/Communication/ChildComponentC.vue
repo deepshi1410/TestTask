@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h3>This is Child C component</h3>
-    <h2>Text received from Child A - {{ message }}</h2>
+    <base-card>
+      <h3>This is Child C component</h3>
+      <h2>Text received from Child A - {{ message }}</h2></base-card
+    >
   </div>
 </template>
 <script>
