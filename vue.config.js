@@ -3,6 +3,8 @@ const path = require('path')
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/users-app/'
+    : '/',
   outputDir: path.resolve(__dirname, './docs')
 })
